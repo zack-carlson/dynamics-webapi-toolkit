@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2018 AlexaCRM
  *
@@ -27,7 +28,8 @@ use Psr\Cache\InvalidArgumentException;
 /**
  * Provides a PSR-6 compliant dummy adapter with minimal memory footprint.
  */
-class NullAdapter implements CacheItemPoolInterface {
+class NullAdapter implements CacheItemPoolInterface
+{
 
     /**
      * Returns a Cache Item representing the specified key.
@@ -45,8 +47,9 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return CacheItemInterface
      *   The corresponding Cache Item.
      */
-    public function getItem( $key ) {
-        return new NullCacheItem( $key );
+    public function getItem(mixed $key): CacheItemInterface
+    {
+        return new NullCacheItem($key);
     }
 
     /**
@@ -65,10 +68,11 @@ class NullAdapter implements CacheItemPoolInterface {
      *   key is not found. However, if no keys are specified then an empty
      *   traversable MUST be returned instead.
      */
-    public function getItems( array $keys = [] ) {
+    public function getItems(array $keys = []): iterable
+    {
         $items = [];
-        foreach ( $keys as $key ) {
-            $items[] = new NullCacheItem( $key );
+        foreach ($keys as $key) {
+            $items[] = new NullCacheItem($key);
         }
 
         return $items;
@@ -91,7 +95,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   True if item exists in the cache, false otherwise.
      */
-    public function hasItem( $key ) {
+    public function hasItem($key): bool
+    {
         return false;
     }
 
@@ -101,7 +106,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   True if the pool was successfully cleared. False if there was an error.
      */
-    public function clear() {
+    public function clear(): bool
+    {
         return true;
     }
 
@@ -118,7 +124,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   True if the item was successfully removed. False if there was an error.
      */
-    public function deleteItem( $key ) {
+    public function deleteItem($key): bool
+    {
         return true;
     }
 
@@ -135,7 +142,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   True if the items were successfully removed. False if there was an error.
      */
-    public function deleteItems( array $keys ) {
+    public function deleteItems(array $keys): bool
+    {
         return true;
     }
 
@@ -148,7 +156,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   True if the item was successfully persisted. False if there was an error.
      */
-    public function save( CacheItemInterface $item ) {
+    public function save(CacheItemInterface $item): bool
+    {
         return true;
     }
 
@@ -161,7 +170,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   False if the item could not be queued or if a commit was attempted and failed. True otherwise.
      */
-    public function saveDeferred( CacheItemInterface $item ) {
+    public function saveDeferred(CacheItemInterface $item): bool
+    {
         return true;
     }
 
@@ -171,8 +181,8 @@ class NullAdapter implements CacheItemPoolInterface {
      * @return bool
      *   True if all not-yet-saved items were successfully saved or there were none. False otherwise.
      */
-    public function commit() {
+    public function commit(): bool
+    {
         return true;
     }
-
 }
