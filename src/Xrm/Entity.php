@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2018 AlexaCRM
  *
@@ -24,7 +25,8 @@ namespace AlexaCRM\Xrm;
 /**
  * Represents a record in Dynamics 365.
  */
-class Entity implements \ArrayAccess {
+class Entity implements \ArrayAccess
+{
 
     use EntityLikeTrait;
 
@@ -63,9 +65,10 @@ class Entity implements \ArrayAccess {
      * @param string|KeyAttributeCollection|null $entityId Record ID, KeyAttributeCollection, or key name
      * @param mixed $keyValue Key value
      */
-    public function __construct( string $entityName = null, $entityId = null, $keyValue = null ) {
+    public function __construct(string $entityName = null, $entityId = null, $keyValue = null)
+    {
         $this->attributeState = new AttributeState();
-        $this->constructOverloaded( $entityName, $entityId, $keyValue );
+        $this->constructOverloaded($entityName, $entityId, $keyValue);
     }
 
     /**
@@ -75,8 +78,9 @@ class Entity implements \ArrayAccess {
      *
      * @return bool
      */
-    public function Contains( string $attribute ): bool {
-        return array_key_exists( $attribute, $this->Attributes );
+    public function Contains(string $attribute): bool
+    {
+        return array_key_exists($attribute, $this->Attributes);
     }
 
     /**
@@ -88,12 +92,13 @@ class Entity implements \ArrayAccess {
      *
      * @return mixed|null
      */
-    public function GetAttributeValue( string $attribute ) {
-        if ( !$this->Contains( $attribute ) ) {
+    public function GetAttributeValue(string $attribute)
+    {
+        if (!$this->Contains($attribute)) {
             return null;
         }
 
-        return $this->Attributes[ $attribute ];
+        return $this->Attributes[$attribute];
     }
 
     /**
@@ -105,12 +110,13 @@ class Entity implements \ArrayAccess {
      *
      * @return string
      */
-    public function GetFormattedAttributeValue( string $attribute ): string {
-        if ( !array_key_exists( $attribute, $this->FormattedValues ) ) {
+    public function GetFormattedAttributeValue(string $attribute): string
+    {
+        if (!array_key_exists($attribute, $this->FormattedValues)) {
             return '';
         }
 
-        return $this->FormattedValues[ $attribute ];
+        return $this->FormattedValues[$attribute];
     }
 
     /**
@@ -119,9 +125,10 @@ class Entity implements \ArrayAccess {
      * @param string $attribute
      * @param mixed $value
      */
-    public function SetAttributeValue( string $attribute, $value ): void {
-        $this->Attributes[ $attribute ] = $value;
-        $this->attributeState[ $attribute ] = true;
+    public function SetAttributeValue(string $attribute, $value): void
+    {
+        $this->Attributes[$attribute] = $value;
+        $this->attributeState[$attribute] = true;
     }
 
     /**
@@ -129,16 +136,17 @@ class Entity implements \ArrayAccess {
      *
      * @return EntityReference
      */
-    public function ToEntityReference(): EntityReference {
-        $ref = new EntityReference( $this->LogicalName );
+    public function ToEntityReference(): EntityReference
+    {
+        $ref = new EntityReference($this->LogicalName);
 
-        if ( $this->Id !== null ) {
+        if ($this->Id !== null) {
             $ref->Id = $this->Id;
 
             return $ref;
         }
 
-        if ( $this->KeyAttributes instanceof KeyAttributeCollection && $this->KeyAttributes->Count > 0 ) {
+        if ($this->KeyAttributes instanceof KeyAttributeCollection && $this->KeyAttributes->Count > 0) {
             $ref->KeyAttributes = clone $this->KeyAttributes;
         }
 
@@ -154,8 +162,9 @@ class Entity implements \ArrayAccess {
      *
      * @return boolean true on success or false on failure.
      */
-    public function offsetExists( $offset ): bool {
-        return $this->Contains( $offset );
+    public function offsetExists($offset): bool
+    {
+        return $this->Contains($offset);
     }
 
     /**
@@ -165,8 +174,9 @@ class Entity implements \ArrayAccess {
      *
      * @return mixed Can return all value types.
      */
-    public function offsetGet( $offset ) {
-        return $this->GetAttributeValue( $offset );
+    public function offsetGet($offset): mixed
+    {
+        return $this->GetAttributeValue($offset);
     }
 
     /**
@@ -177,8 +187,9 @@ class Entity implements \ArrayAccess {
      *
      * @return void
      */
-    public function offsetSet( $offset, $value ): void {
-        $this->SetAttributeValue( $offset, $value );
+    public function offsetSet($offset, $value): void
+    {
+        $this->SetAttributeValue($offset, $value);
     }
 
     /**
@@ -188,11 +199,13 @@ class Entity implements \ArrayAccess {
      *
      * @return void
      */
-    public function offsetUnset( $offset ): void {
-        unset( $this->Attributes[ $offset ], $this->attributeState[ $offset ] );
+    public function offsetUnset($offset): void
+    {
+        unset($this->Attributes[$offset], $this->attributeState[$offset]);
     }
 
-    public function getAttributeState(): AttributeState {
+    public function getAttributeState(): AttributeState
+    {
         return $this->attributeState;
     }
 
@@ -206,11 +219,12 @@ class Entity implements \ArrayAccess {
      * @return void
      * @link https://php.net/manual/en/language.oop5.cloning.php
      */
-    public function __clone() {
+    public function __clone()
+    {
         $this->attributeState = clone $this->attributeState;
 
-        foreach ( $this->Attributes as $field => &$value ) {
-            if ( !is_object( $value ) ) {
+        foreach ($this->Attributes as $field => &$value) {
+            if (!is_object($value)) {
                 continue;
             }
 
