@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2018 AlexaCRM
  *
@@ -24,7 +25,8 @@ namespace AlexaCRM\Xrm;
 /**
  * Contains a collection of entity instances.
  */
-class EntityCollection implements \Iterator {
+class EntityCollection implements \Iterator
+{
 
     /**
      * Collection of entities.
@@ -63,15 +65,17 @@ class EntityCollection implements \Iterator {
      *
      * @return mixed
      */
-    public function current() {
-        return current( $this->Entities );
+    public function current(): mixed
+    {
+        return current($this->Entities);
     }
 
     /**
      * Move forward to next element.
      */
-    public function next(): void {
-        next( $this->Entities );
+    public function next(): void
+    {
+        next($this->Entities);
     }
 
     /**
@@ -79,8 +83,9 @@ class EntityCollection implements \Iterator {
      *
      * @return mixed Scalar on success, or null on failure.
      */
-    public function key() {
-        return key( $this->Entities );
+    public function key(): mixed
+    {
+        return key($this->Entities);
     }
 
     /**
@@ -88,15 +93,16 @@ class EntityCollection implements \Iterator {
      *
      * @return boolean Returns true on success or false on failure.
      */
-    public function valid(): bool {
-        return isset( $this->Entities[ $this->key() ] );
+    public function valid(): bool
+    {
+        return isset($this->Entities[$this->key()]);
     }
 
     /**
      * Rewind the Iterator to the first element.
      */
-    public function rewind(): void {
-        reset( $this->Entities );
+    public function rewind(): void
+    {
+        reset($this->Entities);
     }
-
 }
